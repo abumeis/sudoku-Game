@@ -64,6 +64,9 @@ var sudoku = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
+
+
+//generateSudoku function
 function generateSudoku() {
     var random = Math.floor(Math.random() * allSudoku.length)
     for (var i = 0; i < 9; i++) {
@@ -77,7 +80,7 @@ function generateSudoku() {
     }
 }
 
-
+//isRowValid function
 function isRowValid(line, number) {
     for (var i = 0; i < 9; i++) {
         var value1 = sudoku[line][i];
@@ -92,7 +95,7 @@ function isRowValid(line, number) {
     return true
 }
 
-
+//isColumnValid function
 function isColumnValid(column, number) {
     for (var i = 0; i < 9; i++) {
         var value2 = sudoku[column][i];
@@ -104,24 +107,43 @@ function isColumnValid(column, number) {
     return true
 }
 
-
+//isBlockValid function
 function isBlockValid(line, column, number) {
-    for (var i = 0; i < 9; i++) {
-        if (sudoku[Math.floor(line / 3) * 9 + i / 3 + 9 * Math.floor(i / 3) + 3 * (column / 3)] == number) {
-            console.log("theres thae same num in this block")
-            return false;
-        }
+    var countline = 0;
+    var countcol = 0;
+    if (line === 0 || line === 1 || line === 2) {
+        countline = 0;
+    } else if (line === 3 || line === 4 || line === 5) {
+        countline = 3;
+    } else if (line === 6 || line === 7 || line === 8) {
+        countline = 6;
     }
-    console.log("valid blockss")
-    return true;
+    console.log("line", countline)
 
+
+    if (column === 0 || column === 1 || column === 2) {
+        var countcol = 0;
+    } else if (column === 3 || column === 4 || column === 5) {
+        var countcol = 3;
+    } else if (column === 6 || column === 7 || column === 8) {
+        var countcol = 6;
+    }
+    console.log("col", countcol)
+    for (var i = countline; i < countline + 3; i++) {
+        for (var j = countcol; j < countcol + 3; j++) {
+            if (sudoku[i][j] == number) {
+                console.log("No")
+                return false
+            }
+        }
+        console.log("ok")
+        return true
+    }
 }
 
-
-
-
-function isValid(number, line, column) {
-    if (!isBlockValid(line, column, number) && !isColumnValid(column, number) && !isRowValid(line, number)) {
+//isValid function
+function isValid(line, column, number) {
+    if (isBlockValid(line, column, number) && isColumnValid(column, number) && isRowValid(line, number)) {
         console.log("THIS IS VALID NUMBER ")
         return true;
     }
@@ -130,13 +152,11 @@ function isValid(number, line, column) {
 }
 
 
-//// Still there some issues whth these two functions (isBlockValid and isValid ) 
-
 
 
 generateSudoku()
-isRowValid(0, 2)
-isColumnValid(0, 4)
-isBlockValid(1, 8, 3)
-isValid(5)
+    //isRowValid(0, 2)
+    //isColumnValid(0, 4)
+    //isBlockValid(0, 0, 3)
+isValid(0, 0, 5)
 console.table(sudoku)
